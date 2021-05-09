@@ -1,4 +1,6 @@
 
+import csv
+
 class NN: 
     def __init__(self,inputs,hidden,outputs,lr = 0.3,weights = None):
         """
@@ -59,50 +61,50 @@ class NN:
         h_weights = self.weights[:self.n_h]
         k_weights = self.weights[self.n_h:]
 
-        writer = []
+        writers = []
 
         SSE_file = open("SumOfSquaredErrors.csv", 'w', newline='')
-		write_SSE = csv.writer(SSE_file)
-		write_SSE.writerow(["SSEoutputunit1,", "SSEoutputunit2,", "SSEoutputunit3,", "SSEoutputunit4,", "SSEoutputunit5,", "SSEoutputunit6,", "SSEoutputunit7,", "SSEoutputunit8,"])
+        write_SSE = csv.writer(SSE_file)
+        write_SSE.writerow(["SSEoutputunit1,", "SSEoutputunit2,", "SSEoutputunit3,", "SSEoutputunit4,", "SSEoutputunit5,", "SSEoutputunit6,", "SSEoutputunit7,", "SSEoutputunit8,"])
 
         row = ["HiddenUnit1Encoding,", "HiddenUnit2Encoding,", "HiddenUnit3Encoding,"]
         HUE_1 = open("HiddenUnitEncoding_10000000.csv", 'w', newline='')
-		write_HUE_1 = csv.writer(HUE_1)
+        write_HUE_1 = csv.writer(HUE_1)
         write_HUE_1.writerow(row)
         writers.append(write_HUE_1)
 
         HUE_2 = open("HiddenUnitEncoding_01000000.csv", 'w', newline='')
-		write_HUE_2 = csv.writer(HUE_2)
+        write_HUE_2 = csv.writer(HUE_2)
         write_SSE.writerow(row)
         writers.append(write_HUE_2)
 
         HUE_3 = open("HiddenUnitEncoding_00100000.csv", 'w', newline='')
-		write_HUE_3 = csv.writer(HUE_3)
+        write_HUE_3 = csv.writer(HUE_3)
         write_SSE.writerow(row)
         writers.append(write_HUE_3)
 
         HUE_4 = open("HiddenUnitEncoding_00010000.csv", 'w', newline='')
-		write_HUE_4 = csv.writer(HUE_4)
+        write_HUE_4 = csv.writer(HUE_4)
         write_SSE.writerow(row)
         writers.append(write_HUE_4)
 
         HUE_5 = open("HiddenUnitEncoding_00001000.csv", 'w', newline='')
-		write_HUE_5 = csv.writer(HUE_5)
+        write_HUE_5 = csv.writer(HUE_5)
         write_SSE.writerow(row)
         writers.append(write_HUE_5)
 
         HUE_6 = open("HiddenUnitEncoding_00000100.csv", 'w', newline='')
-		write_HUE_6 = csv.writer(HUE_6)
+        write_HUE_6 = csv.writer(HUE_6)
         write_SSE.writerow(row)
         writers.append(write_HUE_6)
 
         HUE_7 = open("HiddenUnitEncoding_00000010.csv", 'w', newline='')
-		write_HUE_7 = csv.writer(HUE_7)
+        write_HUE_7 = csv.writer(HUE_7)
         write_SSE.writerow(row)
         writers.append(write_HUE_7)
 
         HUE_8 = open("HiddenUnitEncoding_00000001.csv", 'w', newline='')
-		write_HUE_8 = csv.writer(HUE_8)
+        write_HUE_8 = csv.writer(HUE_8)
         write_SSE.writerow(row)
         writers.append(write_HUE_8)
 
@@ -117,7 +119,7 @@ class NN:
                 h_errors = []
                 error_SSE = [0] * self.n_out
                 for k in range(self.n_out):
-                    error = target[k] - k_outputs[k])
+                    error = target[k] - k_outputs[k]
                     delta_k = k_outputs[k] * (1 - k_outputs[k]) * error # (/partial E_total//partial o_k) * (/partial o_k//partial net o_k) 
                     out_errors.append(delta_k)
                     error_SSE[k] += error**2 
@@ -145,18 +147,4 @@ class NN:
                 h_outputs, k_outputs = self.forward(d[0])
                 writers[d].writerow([h_outputs for i in range(self.n_h)])
 
-             write_SSE.writerow([error_SSE[i] for i in range(self.n_out)])
-             h_outputs, k_outputs = self.forward(d)
-
-
-
-
-                
-
-
-
-
-
-
-            
- 
+            write_SSE.writerow([error_SSE[i] for i in range(self.n_out)])
