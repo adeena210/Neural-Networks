@@ -27,18 +27,19 @@ class NN:
 	    Performs forward propagation in network 
 	    Arguments
 	    --------------------------------------------------------------------
-		    data : list : training instance containing list of inputs and 
-            list of outputs
+		    data : list : training instance containing list of inputs
 
         Returns:      
 	    --------------------------------------------------------------------
-            output : list : list of outputs from hidden units and output units
+            output_h : list : list of outputs from hidden units 
+            output_k : list : list of outputs from output units
 	    """
+        h_weights = self.weights[:self.n_h]
+        k_weights = self.weights[self.n_h:]
+    
 
         return [], []
-
-    def error(self, data):
-        pass
+        
 
     def back_propagate(self,data,epochs):
         """
@@ -58,18 +59,68 @@ class NN:
         h_weights = self.weights[:self.n_h]
         k_weights = self.weights[self.n_h:]
 
-        while n_epochs <= epochs:
-            for d in data:
-                h_outputs, k_outputs = self.forward(d)
-                inputs = d[0]
-                target = d[1]
+        writer = []
 
+        SSE_file = open("SumOfSquaredErrors.csv", 'w', newline='')
+		write_SSE = csv.writer(SSE_file)
+		write_SSE.writerow(["SSEoutputunit1,", "SSEoutputunit2,", "SSEoutputunit3,", "SSEoutputunit4,", "SSEoutputunit5,", "SSEoutputunit6,", "SSEoutputunit7,", "SSEoutputunit8,"])
+
+        row = ["HiddenUnit1Encoding,", "HiddenUnit2Encoding,", "HiddenUnit3Encoding,"]
+        HUE_1 = open("HiddenUnitEncoding_10000000.csv", 'w', newline='')
+		write_HUE_1 = csv.writer(HUE_1)
+        write_HUE_1.writerow(row)
+        writers.append(write_HUE_1)
+
+        HUE_2 = open("HiddenUnitEncoding_01000000.csv", 'w', newline='')
+		write_HUE_2 = csv.writer(HUE_2)
+        write_SSE.writerow(row)
+        writers.append(write_HUE_2)
+
+        HUE_3 = open("HiddenUnitEncoding_00100000.csv", 'w', newline='')
+		write_HUE_3 = csv.writer(HUE_3)
+        write_SSE.writerow(row)
+        writers.append(write_HUE_3)
+
+        HUE_4 = open("HiddenUnitEncoding_00010000.csv", 'w', newline='')
+		write_HUE_4 = csv.writer(HUE_4)
+        write_SSE.writerow(row)
+        writers.append(write_HUE_4)
+
+        HUE_5 = open("HiddenUnitEncoding_00001000.csv", 'w', newline='')
+		write_HUE_5 = csv.writer(HUE_5)
+        write_SSE.writerow(row)
+        writers.append(write_HUE_5)
+
+        HUE_6 = open("HiddenUnitEncoding_00000100.csv", 'w', newline='')
+		write_HUE_6 = csv.writer(HUE_6)
+        write_SSE.writerow(row)
+        writers.append(write_HUE_6)
+
+        HUE_7 = open("HiddenUnitEncoding_00000010.csv", 'w', newline='')
+		write_HUE_7 = csv.writer(HUE_7)
+        write_SSE.writerow(row)
+        writers.append(write_HUE_7)
+
+        HUE_8 = open("HiddenUnitEncoding_00000001.csv", 'w', newline='')
+		write_HUE_8 = csv.writer(HUE_8)
+        write_SSE.writerow(row)
+        writers.append(write_HUE_8)
+
+
+        while n_epochs <= epochs:
+            for d in range(len(data)):
+                h_outputs, k_outputs = self.forward(d[0])
+                inputs = data[d][0]
+                target = data[d][1]
 
                 out_errors = []
                 h_errors = []
+                error_SSE = [0] * self.n_out
                 for k in range(self.n_out):
-                    delta_k = k_outputs[k] * (1 - k_outputs[k]) * (target[k] - k_outputs[k]) # (/partial E_total//partial o_k) * (/partial o_k//partial net o_k) 
+                    error = target[k] - k_outputs[k])
+                    delta_k = k_outputs[k] * (1 - k_outputs[k]) * error # (/partial E_total//partial o_k) * (/partial o_k//partial net o_k) 
                     out_errors.append(delta_k)
+                    error_SSE[k] += error**2 
 
                 for h in range(self.n_h):
                     sum = 0
@@ -79,17 +130,30 @@ class NN:
                     delta_h = h_outputs[h] * (1 - h_outputs[h]) * sum # (/partial o_h//partial net o_h) *(/partial E_total//partial o_h)
                     h_errors.append(delta_h)
 
+                #updating weights for second layer
                 for k in range(self.n_out):
                     for h in range(self.n_h):
                         Delta_k = self.lr * out_errors[k] * h_outputs[h]
                         k_weights[k][h] = k_weights[k][h] + Delta_k
 
+                #updating weights for first layer
                 for h in range(self.n_h):
                     for i in range(self.n_in):
                         Delta_h = self.lr * h_errors[h] * inputs[i]
                         h_weights[h][i] = h_weights[h][i] + Delta_h
+                
+                h_outputs, k_outputs = self.forward(d[0])
+                writers[d].writerow([h_outputs for i in range(self.n_h)])
 
-                        
+             write_SSE.writerow([error_SSE[i] for i in range(self.n_out)])
+             h_outputs, k_outputs = self.forward(d)
+
+
+
+
+                
+
+
 
 
 
