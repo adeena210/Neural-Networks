@@ -10,7 +10,7 @@ class NN:
             hidden: int : number of hidden units
             inputs: int : number of output units
             lr : float : learning rate
-            weights: list: list of weights for each hidden unit
+            weights: list: list of weights for each hidden unit & output unit
         """
 
         self.lr = lr
@@ -49,7 +49,7 @@ class NN:
 	    Arguments
 	    --------------------------------------------------------------------
 		    data : list : list of training instances  
-            epochs: number of epochs or iterations
+            	    epochs: number of epochs or iterations
 	
 	    --------------------------------------------------------------------
 	    Outputs:
@@ -148,3 +148,4 @@ class NN:
                 writers[d].writerow([h_outputs for i in range(self.n_h)])
 
             write_SSE.writerow([error_SSE[i] for i in range(self.n_out)])
+	    epochs += 1
