@@ -29,7 +29,7 @@ class NN:
 	    Performs forward propagation in network 
 	    Arguments
 	    --------------------------------------------------------------------
-		    data : list : training instance containing list of inputs
+		    data : list : training instance containing input
 
         Returns:      
 	    --------------------------------------------------------------------
