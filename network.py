@@ -43,20 +43,20 @@ class NN:
         return [], []
         
 
-    def back_propagate(self,data,epochs):
+    def back_propagate(self,data,epochs):   # def back_propagate(self,data,epochs = 5000):   #COMMENT: should epochs just be 5000 by default?
         """
 	    Performs backward propagation in network for specified number of epochs
 	    Arguments
 	    --------------------------------------------------------------------
 		    data : list : list of training instances  
-            	    epochs: number of epochs or iterations
+            epochs: number of epochs or iterations
 	
 	    --------------------------------------------------------------------
 	    Outputs:
             1. a SSE (Sum of Squared Error) csv file with a column for each output unit
             2. Hidden Unit Encoding file(s) for each input that contains a column for each hidden unit 
 	    """
-        n_epochs = 0
+        n_epochs = 0    # COMMENT: whats the point of n_epochs? does it represent the epoch cap or what is being iterated?
 
         h_weights = self.weights[:self.n_h]
         k_weights = self.weights[self.n_h:]
@@ -108,8 +108,9 @@ class NN:
         write_SSE.writerow(row)
         writers.append(write_HUE_8)
 
+        #i = 0    # COMMENT: temp iterator
 
-        while n_epochs <= epochs:
+        while n_epochs <= epochs:   # COMMENT: while i <= epochs:
             for d in range(len(data)):
                 h_outputs, k_outputs = self.forward(d[0])
                 inputs = data[d][0]
@@ -120,16 +121,16 @@ class NN:
                 error_SSE = [0] * self.n_out
                 for k in range(self.n_out):
                     error = target[k] - k_outputs[k]
-                    delta_k = k_outputs[k] * (1 - k_outputs[k]) * error # (/partial E_total//partial o_k) * (/partial o_k//partial net o_k) 
+                    delta_k = k_outputs[k] * (1 - k_outputs[k]) * error # (/partial E_total / /partial o_k) * (/partial o_k / /partial net o_k) 
                     out_errors.append(delta_k)
                     error_SSE[k] += error**2 
 
                 for h in range(self.n_h):
                     sum = 0
                     for k in range(len(out_errors)):
-                        sum += k_weights[k][h] * out_errors[k] # (/partial net o_k//partial o_h) * (/partial E_o_k//partial net o_k)
+                        sum += k_weights[k][h] * out_errors[k] # (/partial net o_k / /partial o_h) * (/partial E_o_k / /partial net o_k)
                     
-                    delta_h = h_outputs[h] * (1 - h_outputs[h]) * sum # (/partial o_h//partial net o_h) *(/partial E_total//partial o_h)
+                    delta_h = h_outputs[h] * (1 - h_outputs[h]) * sum # (/partial o_h / /partial net o_h) * (/partial E_total / /partial o_h)
                     h_errors.append(delta_h)
 
                 #updating weights for second layer
@@ -148,4 +149,6 @@ class NN:
                 writers[d].writerow([h_outputs for i in range(self.n_h)])
 
             write_SSE.writerow([error_SSE[i] for i in range(self.n_out)])
-	    epochs += 1
+
+	    epochs += 1     #    i += 1    #COMMENT: shouldn't this be within the while loop? And shouldn't this be n_epochs (or i for iterator?)
+        
