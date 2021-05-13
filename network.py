@@ -1,5 +1,7 @@
 
 import csv
+import numpy
+import math
 
 class NN: 
     def __init__(self,inputs,hidden,outputs,lr = 0.3,weights = None):
@@ -17,33 +19,54 @@ class NN:
         self.n_in = inputs
         self.n_h = hidden
         self.n_out = outputs
+        self.w0 = 1   #constant w0 weight
 
         if weights is None:
-            self.weights = [[0] * self.n_in] * self.n_h + [[0] * self.n_h] * self.n_out
+            self.weights = [[0] * self.n_in] * self.n_h + [[0] * self.n_h] * self.n_out    # Wtf is this mumbo jumbo?
         else:
             self.weights = weights
  
+
+    def sigmoid(self, dotprod):
+        return float( 1 / ( 1 + ( math.e**(-1*dotprod) ) )
+
 
     def forward(self, data):
         """
 	    Performs forward propagation in network 
 	    Arguments
 	    --------------------------------------------------------------------
-		    data : list : training instance containing input
-
+		    data : list : training instance containing inputs
+            EXAMPLE: data = { ([1,2,3], [1,2,3]) , ([1,2,3], [1,2,3]) , ([1,2,3], [1,2,3]) }
         Returns:      
 	    --------------------------------------------------------------------
             output_h : list : list of outputs from hidden units 
             output_k : list : list of outputs from output units
 	    """
-        h_weights = self.weights[:self.n_h]
-        k_weights = self.weights[self.n_h:]
-    
 
-        return [], []
+        #initializing hidden units, hidden units' weights, & output of hidden units
+        output_h = self.weights[:self.n_h]      # [0,0,0]
+        h_weights = self.weights[:self.n_h]     # [0,0,0]
+        
+        
+        output_k = self.weights[:self.n_h]      # [0,0,0,0,0,0,0,0]
+        k_weights = self.weights[self.n_h:]  # isn't this just an array of [0,0,0,0,0] ?   
+
+        
+        for row in data:
+            for inputs, outputs in row:
+                for h in output_h:                                            # taking input units into hidden units
+                    dotprod = numpy.dot(self.weights, inputs) + self.w0         
+                    hidden[h] = self.sigmoid(dotprod)
+
+                for o_h in output_k:                                        # taking hidden units as inputs for output units
+                    dotprod = numpy.dot(h_weights, hidden) #+ self.w0
+                    output_k[o_h] = self.sigmoid(dotprod)   #????????????
+
+        return
         
 
-    def back_propagate(self,data,epochs):   # def back_propagate(self,data,epochs = 5000):   #COMMENT: should epochs just be 5000 by default?
+    def back_propagate(self,data,epochs=5000):  
         """
 	    Performs backward propagation in network for specified number of epochs
 	    Arguments
@@ -56,7 +79,7 @@ class NN:
             1. a SSE (Sum of Squared Error) csv file with a column for each output unit
             2. Hidden Unit Encoding file(s) for each input that contains a column for each hidden unit 
 	    """
-        n_epochs = 0    # COMMENT: whats the point of n_epochs? does it represent the epoch cap or what is being iterated?
+        n_epochs = 0
 
         h_weights = self.weights[:self.n_h]
         k_weights = self.weights[self.n_h:]
@@ -108,9 +131,7 @@ class NN:
         write_SSE.writerow(row)
         writers.append(write_HUE_8)
 
-        #i = 0    # COMMENT: temp iterator
-
-        while n_epochs <= epochs:   # COMMENT: while i <= epochs:
+        while n_epochs <= epochs:   
             for d in range(len(data)):
                 h_outputs, k_outputs = self.forward(d[0])
                 inputs = data[d][0]
@@ -150,5 +171,7 @@ class NN:
 
             write_SSE.writerow([error_SSE[i] for i in range(self.n_out)])
 
-	    epochs += 1     #    i += 1    #COMMENT: shouldn't this be within the while loop? And shouldn't this be n_epochs (or i for iterator?)
+	        n_epochs += 1
+    
+
         
