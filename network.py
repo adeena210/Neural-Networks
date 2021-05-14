@@ -22,13 +22,13 @@ class NN:
         self.w0 = 1   #constant w0 weight
 
         if weights is None:
-            self.weights = [[0] * self.n_in] * self.n_h + [[0] * self.n_h] * self.n_out    # Wtf is this mumbo jumbo?
+            self.weights = [[0] * (self.n_in + 1)] * self.n_h + [[0] * (self.n_h + 1)] * self.n_out    # Wtf is this mumbo jumbo?
         else:
             self.weights = weights
  
 
     def sigmoid(self, dotprod):
-        return float( 1 / ( 1 + ( math.e**(-1*dotprod) ) )
+        return float( 1 / ( 1 + ( math.e**(-1*dotprod) ) ) )
 
 
     def forward(self, data):
@@ -44,26 +44,22 @@ class NN:
             output_k : list : list of outputs from output units
 	    """
 
-        #initializing hidden units, hidden units' weights, & output of hidden units
-        output_h = self.weights[:self.n_h]      # [0,0,0]
-        h_weights = self.weights[:self.n_h]     # [0,0,0]
+        #initializing hidden units & weights, and output units & weights
+        h_output = [1,0,0,0]                  # result of hidden units after utilizing input units
+        h_weights = self.weights[:self.n_h]      # first weight is for constant, 8 after are for inputs
         
         
-        output_k = self.weights[:self.n_h]      # [0,0,0,0,0,0,0,0]
-        k_weights = self.weights[self.n_h:]  # isn't this just an array of [0,0,0,0,0] ?   
+        k_output = [0,0,0,0,0,0,0,0]        # result of output units after utilizing hidden units
+        k_weights = self.weights[self.n_h:]      # first weight is for constant, 8 after are for inputs 
 
-        
-        for row in data:
-            for inputs, outputs in row:
-                for h in output_h:                                            # taking input units into hidden units
-                    dotprod = numpy.dot(self.weights, inputs) + self.w0         
-                    hidden[h] = self.sigmoid(dotprod)
+        for h in range(1, len(h_output)):                                # taking input units into hidden units
+            dotprod = numpy.dot(h_weights[h-1], data)
+            h_output[h] = self.sigmoid(dotprod)
 
-                for o_h in output_k:                                        # taking hidden units as inputs for output units
-                    dotprod = numpy.dot(h_weights, hidden) #+ self.w0
-                    output_k[o_h] = self.sigmoid(dotprod)   #????????????
-
-        return
+        for k in range(len(k_output)):                                        # taking hidden units as inputs for output units
+            dotprod = numpy.dot(k_weights[k], h_output)
+            k_output[k] = self.sigmoid(dotprod)
+        return h_output, k_output
         
 
     def back_propagate(self,data,epochs=5000):  
@@ -98,45 +94,49 @@ class NN:
 
         HUE_2 = open("HiddenUnitEncoding_01000000.csv", 'w', newline='')
         write_HUE_2 = csv.writer(HUE_2)
-        write_SSE.writerow(row)
+        write_HUE_2.writerow(row)
         writers.append(write_HUE_2)
 
         HUE_3 = open("HiddenUnitEncoding_00100000.csv", 'w', newline='')
         write_HUE_3 = csv.writer(HUE_3)
-        write_SSE.writerow(row)
+        write_HUE_3.writerow(row)
         writers.append(write_HUE_3)
 
         HUE_4 = open("HiddenUnitEncoding_00010000.csv", 'w', newline='')
         write_HUE_4 = csv.writer(HUE_4)
-        write_SSE.writerow(row)
+        write_HUE_4.writerow(row)
         writers.append(write_HUE_4)
 
         HUE_5 = open("HiddenUnitEncoding_00001000.csv", 'w', newline='')
         write_HUE_5 = csv.writer(HUE_5)
-        write_SSE.writerow(row)
+        write_HUE_5.writerow(row)
         writers.append(write_HUE_5)
 
         HUE_6 = open("HiddenUnitEncoding_00000100.csv", 'w', newline='')
         write_HUE_6 = csv.writer(HUE_6)
-        write_SSE.writerow(row)
+        write_HUE_6.writerow(row)
         writers.append(write_HUE_6)
 
         HUE_7 = open("HiddenUnitEncoding_00000010.csv", 'w', newline='')
         write_HUE_7 = csv.writer(HUE_7)
-        write_SSE.writerow(row)
+        write_HUE_7.writerow(row)
         writers.append(write_HUE_7)
 
         HUE_8 = open("HiddenUnitEncoding_00000001.csv", 'w', newline='')
         write_HUE_8 = csv.writer(HUE_8)
-        write_SSE.writerow(row)
+        write_HUE_8.writerow(row)
         writers.append(write_HUE_8)
 
+        k_outputs = []
         while n_epochs <= epochs:   
             for d in range(len(data)):
-                h_outputs, k_outputs = self.forward(d[0])
-                inputs = data[d][0]
+                inputs = [1]
+                inputs.extend(data[d][0])
+                h_outputs, k_outputs = self.forward(inputs)
                 target = data[d][1]
 
+                print ("output units: ", k_outputs )
+                print ("target values: ", target)
                 out_errors = []
                 h_errors = []
                 error_SSE = [0] * self.n_out
@@ -145,33 +145,48 @@ class NN:
                     delta_k = k_outputs[k] * (1 - k_outputs[k]) * error # (/partial E_total / /partial o_k) * (/partial o_k / /partial net o_k) 
                     out_errors.append(delta_k)
                     error_SSE[k] += error**2 
+                print("output errors: ", out_errors)
 
-                for h in range(self.n_h):
+                for h in range(self.n_h + 1):
                     sum = 0
                     for k in range(len(out_errors)):
                         sum += k_weights[k][h] * out_errors[k] # (/partial net o_k / /partial o_h) * (/partial E_o_k / /partial net o_k)
                     
                     delta_h = h_outputs[h] * (1 - h_outputs[h]) * sum # (/partial o_h / /partial net o_h) * (/partial E_total / /partial o_h)
                     h_errors.append(delta_h)
+                print("hidden errors: ", h_errors)
 
                 #updating weights for second layer
                 for k in range(self.n_out):
-                    for h in range(self.n_h):
+                    for h in range(self.n_h + 1):
                         Delta_k = self.lr * out_errors[k] * h_outputs[h]
                         k_weights[k][h] = k_weights[k][h] + Delta_k
 
                 #updating weights for first layer
                 for h in range(self.n_h):
-                    for i in range(self.n_in):
+                    for i in range(self.n_in + 1):
                         Delta_h = self.lr * h_errors[h] * inputs[i]
                         h_weights[h][i] = h_weights[h][i] + Delta_h
                 
-                h_outputs, k_outputs = self.forward(d[0])
-                writers[d].writerow([h_outputs for i in range(self.n_h)])
+                h_outputs, k_outputs = self.forward(inputs)
+                writers[d].writerow([numpy.round(h_outputs[i], 5) for i in range(1,self.n_h+1)])
+            write_SSE.writerow([numpy.round(error_SSE[i], 5) for i in range(self.n_out)])
+            n_epochs += 1
+        # print (self.weights)
+            
 
-            write_SSE.writerow([error_SSE[i] for i in range(self.n_out)])
 
-	        n_epochs += 1
-    
-
-        
+if __name__ == "__main__":
+    # weights = [[0, 0, 0, 0, 0, 0, 0, 0], [1, 1, 1, 1, 1, 1, 1, 1], [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5], [0, 0, 0], [1, 1, 1], [1, 0, 1], [0, 0, 1], [1, 0, 0], [0, 1, 1], [1, 1, 0], [0, 1, 0]]
+    nn = NN(8,3,8)
+    d = [ 
+    ( [1,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0] ),
+    ( [0,1,0,0,0,0,0,0],[0,1,0,0,0,0,0,0] ),
+    ( [0,0,1,0,0,0,0,0],[0,0,1,0,0,0,0,0] ),
+    ( [0,0,0,1,0,0,0,0],[0,0,0,1,0,0,0,0] ),
+    ( [0,0,0,0,1,0,0,0],[0,0,0,0,1,0,0,0] ),
+    ( [0,0,0,0,0,1,0,0],[0,0,0,0,0,1,0,0] ),
+    ( [0,0,0,0,0,0,1,0],[0,0,0,0,0,0,1,0] ),
+    ( [0,0,0,0,0,0,0,1],[0,0,0,0,0,0,0,1] )
+    ]
+    nn.back_propagate(d, 1)
