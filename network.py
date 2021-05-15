@@ -1,4 +1,4 @@
-
+from random import random
 import csv
 import numpy
 import math
@@ -22,7 +22,8 @@ class NN:
         self.w0 = 1   #constant w0 weight
 
         if weights is None:
-            self.weights = [[0] * (self.n_in + 1)] * self.n_h + [[0] * (self.n_h + 1)] * self.n_out    # Wtf is this mumbo jumbo?
+            self.weights = [[random()*0.2 - 0.1 for i in range(self.n_in + 1)] for j in range(self.n_h)]
+            self.weights.extend([[random()*0.2 - 0.1 for i in range(self.n_h + 1)] for j in range(self.n_out)])
         else:
             self.weights = weights
  
@@ -135,8 +136,8 @@ class NN:
                 h_outputs, k_outputs = self.forward(inputs)
                 target = data[d][1]
 
-                print ("output units: ", k_outputs )
-                print ("target values: ", target)
+               # print ("output units: ", k_outputs )
+                #print ("target values: ", target)
                 out_errors = []
                 h_errors = []
                 error_SSE = [0] * self.n_out
@@ -145,7 +146,7 @@ class NN:
                     delta_k = k_outputs[k] * (1 - k_outputs[k]) * error # (/partial E_total / /partial o_k) * (/partial o_k / /partial net o_k) 
                     out_errors.append(delta_k)
                     error_SSE[k] += error**2 
-                print("output errors: ", out_errors)
+                #print("output errors: ", out_errors)
 
                 for h in range(self.n_h + 1):
                     sum = 0
@@ -154,7 +155,7 @@ class NN:
                     
                     delta_h = h_outputs[h] * (1 - h_outputs[h]) * sum # (/partial o_h / /partial net o_h) * (/partial E_total / /partial o_h)
                     h_errors.append(delta_h)
-                print("hidden errors: ", h_errors)
+                #print("hidden errors: ", h_errors)
 
                 #updating weights for second layer
                 for k in range(self.n_out):
@@ -189,4 +190,5 @@ if __name__ == "__main__":
     ( [0,0,0,0,0,0,1,0],[0,0,0,0,0,0,1,0] ),
     ( [0,0,0,0,0,0,0,1],[0,0,0,0,0,0,0,1] )
     ]
-    nn.back_propagate(d, 1)
+    nn.back_propagate(d, 5000)
+    print(nn.forward([1,0,0,0,1,0,0,0,0])[1])
