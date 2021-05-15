@@ -1,4 +1,5 @@
 from random import random
+import matplotlib.pyplot as plt
 import csv
 import numpy
 import math
@@ -30,6 +31,43 @@ class NN:
 
     def sigmoid(self, dotprod):
         return float( 1 / ( 1 + ( math.e**(-1*dotprod) ) ) )
+
+
+    def plot(self, epoch_counter):
+        unit1,unit2,unit3,unit4,unit5,unit6,unit7,unit8 = [],[],[],[],[],[],[],[]
+
+        with open("SumOfSquaredErrors.csv", "r") as csvfile:
+            csvreader = csv.reader(csvfile)
+            next(csvreader, None) # skip first row
+
+            for line in csvreader:
+                unit1.append(float(line[0]))
+                unit2.append(float(line[1]))
+                unit3.append(float(line[2]))
+                unit4.append(float(line[3]))
+                unit5.append(float(line[4]))
+                unit6.append(float(line[5]))
+                unit7.append(float(line[6]))
+                unit8.append(float(line[7]))
+        print(epoch_counter) # this works
+        print(unit1) # error: empty array, can't plot
+        fig = plt.figure(figsize=(12,8))
+
+        # add colors later
+        plt.plot(epoch_counter, unit1, label = "line 1")
+        plt.plot(epoch_counter, unit2, label = "line 2")
+        plt.plot(epoch_counter, unit3, label = "line 3")
+        plt.plot(epoch_counter, unit4, label = "line 4")
+        plt.plot(epoch_counter, unit5, label = "line 5")
+        plt.plot(epoch_counter, unit6, label = "line 6")
+        plt.plot(epoch_counter, unit7, label = "line 7")
+        plt.plot(epoch_counter, unit8, label = "line 8")
+        plt.xlabel('Epoch Number')
+        plt.ylabel('Sum of Squared Errors')
+        plt.title('Sum of Squared Errors For Each Output Unit')
+
+        fig.tight_layout()
+        fig.savefig('SquaredErrorsPlot.png')
 
 
     def forward(self, data):
@@ -77,6 +115,7 @@ class NN:
             2. Hidden Unit Encoding file(s) for each input that contains a column for each hidden unit 
 	    """
         n_epochs = 0
+        epoch_counter = []
 
         h_weights = self.weights[:self.n_h]
         k_weights = self.weights[self.n_h:]
@@ -173,8 +212,9 @@ class NN:
                 writers[d].writerow([numpy.round(h_outputs[i], 5) for i in range(1,self.n_h+1)])
             write_SSE.writerow([numpy.round(error_SSE[i], 5) for i in range(self.n_out)])
             n_epochs += 1
+            epoch_counter.append(n_epochs)
         # print (self.weights)
-            
+        self.plot(epoch_counter)
 
 
 if __name__ == "__main__":
