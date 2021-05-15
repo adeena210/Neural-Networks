@@ -1,3 +1,11 @@
+"""
+Adeena Ahmed, Suada Demirovic, Yash Dhayal, Jason Swick
+CSC 426-01
+File Name: network.py
+Final Project
+Description: Implementation of a multilayerneural network learner that utilizes backpropagation.
+"""
+
 from random import random
 import matplotlib.pyplot as plt
 import csv
@@ -137,23 +145,23 @@ class NN:
 
         #initializing hidden units & weights, and output units & weights
         h_output = [1,0,0,0]                  # result of hidden units after utilizing input units
-        h_weights = self.weights[:self.n_h]      # first weight is for constant, 8 after are for inputs
+        h_weights = self.weights[:self.n_h]      
         
         
         k_output = [0,0,0,0,0,0,0,0]        # result of output units after utilizing hidden units
-        k_weights = self.weights[self.n_h:]      # first weight is for constant, 8 after are for inputs 
+        k_weights = self.weights[self.n_h:]      
 
         for h in range(1, len(h_output)):                                # taking input units into hidden units
-            dotprod = numpy.dot(h_weights[h-1], data)
+            dotprod = numpy.dot(h_weights[h-1], data)  
             h_output[h] = self.sigmoid(dotprod)
 
-        for k in range(len(k_output)):                                        # taking hidden units as inputs for output units
+        for k in range(len(k_output)):                                   # taking hidden units as inputs for output units
             dotprod = numpy.dot(k_weights[k], h_output)
             k_output[k] = self.sigmoid(dotprod)
         return h_output, k_output
         
 
-    def back_propagate(self,data,epochs=5000):  
+    def back_propagate(self,data,epochs=4999):  # epochs set to 4999, since they start at index 0. Ends up being 5000 epochs 
         """
 	    Performs backward propagation in network for specified number of epochs
 	    Arguments
@@ -179,45 +187,49 @@ class NN:
         write_SSE.writerow(["SSEoutputunit1,", "SSEoutputunit2,", "SSEoutputunit3,", "SSEoutputunit4,", "SSEoutputunit5,", "SSEoutputunit6,", "SSEoutputunit7,", "SSEoutputunit8,"])
 
         row = ["HiddenUnit1Encoding,", "HiddenUnit2Encoding,", "HiddenUnit3Encoding,"]
-        HUE_1 = open("HiddenUnitEncoding_10000000.csv", 'w', newline='')
+        HUE_1 = open("HiddenUnitEncoding_10000000.csv", 'w+', newline='')
         write_HUE_1 = csv.writer(HUE_1)
         write_HUE_1.writerow(row)
         writers.append(write_HUE_1)
 
-        HUE_2 = open("HiddenUnitEncoding_01000000.csv", 'w', newline='')
+        HUE_2 = open("HiddenUnitEncoding_01000000.csv", 'w+', newline='')
         write_HUE_2 = csv.writer(HUE_2)
         write_HUE_2.writerow(row)
         writers.append(write_HUE_2)
 
-        HUE_3 = open("HiddenUnitEncoding_00100000.csv", 'w', newline='')
+        HUE_3 = open("HiddenUnitEncoding_00100000.csv", 'w+', newline='')
         write_HUE_3 = csv.writer(HUE_3)
         write_HUE_3.writerow(row)
         writers.append(write_HUE_3)
 
-        HUE_4 = open("HiddenUnitEncoding_00010000.csv", 'w', newline='')
+        HUE_4 = open("HiddenUnitEncoding_00010000.csv", 'w+', newline='')
         write_HUE_4 = csv.writer(HUE_4)
         write_HUE_4.writerow(row)
         writers.append(write_HUE_4)
 
-        HUE_5 = open("HiddenUnitEncoding_00001000.csv", 'w', newline='')
+        HUE_5 = open("HiddenUnitEncoding_00001000.csv", 'w+', newline='')
         write_HUE_5 = csv.writer(HUE_5)
         write_HUE_5.writerow(row)
         writers.append(write_HUE_5)
 
-        HUE_6 = open("HiddenUnitEncoding_00000100.csv", 'w', newline='')
+        HUE_6 = open("HiddenUnitEncoding_00000100.csv", 'w+', newline='')
         write_HUE_6 = csv.writer(HUE_6)
         write_HUE_6.writerow(row)
         writers.append(write_HUE_6)
 
-        HUE_7 = open("HiddenUnitEncoding_00000010.csv", 'w', newline='')
+        HUE_7 = open("HiddenUnitEncoding_00000010.csv", 'w+', newline='')
         write_HUE_7 = csv.writer(HUE_7)
         write_HUE_7.writerow(row)
         writers.append(write_HUE_7)
 
-        HUE_8 = open("HiddenUnitEncoding_00000001.csv", 'w', newline='')
+        HUE_8 = open("HiddenUnitEncoding_00000001.csv", 'w+', newline='')
         write_HUE_8 = csv.writer(HUE_8)
         write_HUE_8.writerow(row)
         writers.append(write_HUE_8)
+
+        # write into HRF for task 4
+        HRF = open("HiddenRepresentationsFile.csv", 'w', newline='')
+        write_HRF = csv.writer(HRF)
 
         k_outputs = []
         while n_epochs <= epochs:   
@@ -255,13 +267,21 @@ class NN:
                         k_weights[k][h] = k_weights[k][h] + Delta_k
 
                 #updating weights for first layer
-                for h in range(self.n_h):
+                for h in range(1, self.n_h + 1):
                     for i in range(self.n_in + 1):
                         Delta_h = self.lr * h_errors[h] * inputs[i]
-                        h_weights[h][i] = h_weights[h][i] + Delta_h
+                        h_weights[h-1][i] = h_weights[h-1][i] + Delta_h
                 
                 h_outputs, k_outputs = self.forward(inputs)
                 writers[d].writerow([numpy.round(h_outputs[i], 5) for i in range(1,self.n_h+1)])
+                
+                if n_epochs == 4999:
+                    temp = []
+                    temp.append("Input Value: " + str(data[d][0]))
+                    temp.append("Hidden Values: " + str([int(numpy.round(h_outputs[i], 0)) for i in range(1,self.n_h+1)]) )
+                    temp.append("Output Value: " + str(data[d][1]))
+                    write_HRF.writerow(temp)
+
             write_SSE.writerow([numpy.round(error_SSE[i], 5) for i in range(self.n_out)])
             n_epochs += 1
             epoch_counter.append(n_epochs)
@@ -277,6 +297,7 @@ class NN:
         HUE_6.close()
         HUE_7.close()
         HUE_8.close()
+        HRF.close()
 
         # Create the plots
         self.SSE_plot(epoch_counter)
@@ -291,7 +312,7 @@ class NN:
 
 
 if __name__ == "__main__":
-    # weights = [[0, 0, 0, 0, 0, 0, 0, 0], [1, 1, 1, 1, 1, 1, 1, 1], [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5], [0, 0, 0], [1, 1, 1], [1, 0, 1], [0, 0, 1], [1, 0, 0], [0, 1, 1], [1, 1, 0], [0, 1, 0]]
+   
     nn = NN(8,3,8)
     d = [ 
     ( [1,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0] ),
@@ -303,5 +324,6 @@ if __name__ == "__main__":
     ( [0,0,0,0,0,0,1,0],[0,0,0,0,0,0,1,0] ),
     ( [0,0,0,0,0,0,0,1],[0,0,0,0,0,0,0,1] )
     ]
-    nn.back_propagate(d, 5000)
+    nn.back_propagate(d, 4999)
     print(nn.forward([1,0,0,0,1,0,0,0,0])[1])
+
