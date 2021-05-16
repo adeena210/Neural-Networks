@@ -76,7 +76,7 @@ class NN:
 
     # Creates a plot of the sum of squared errors vs. the epoch number.
     def SSE_plot(self, epoch_counter):
-	"""
+        """
         Arguments
 	    -------------------------------------------------------------------- 
             epoch_counter: number of epochs to be plotted 
@@ -118,10 +118,10 @@ class NN:
         fig.savefig('SquaredErrorsPlot.png') # Saves the graph as a png file.
 
 
-    Creates a plot of the hidden unit value vs. the epoch number.
-    The filename passed in is used to distinguish between the different HUEs.
+    #Creates a plot of the hidden unit value vs. the epoch number.
+    #The filename passed in is used to distinguish between the different HUEs.
     def HUE_plot(self, filename, epoch_counter):
-	"""
+        """
         Arguments
 	    -------------------------------------------------------------------- 
             filename: the Hidden Unit Encoding file whose data is to be plotted
