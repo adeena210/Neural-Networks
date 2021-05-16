@@ -7,7 +7,7 @@ Description: Describes the contents of the submission.
 ## Contents
 The deliverables include:
 
-1. **network.py**: Implementation of a multilayerneural network learner that utilizes backpropagation (D1).
+1. **network.py**: Implementation of a multilayer neural network learner that utilizes backpropagation (D1).
 2. Data Files (D2):
     i. **HiddenUnitEncoding_00000001.csv**: A csv file containing the three hidden units in the network for the input \vec{x} = (0,0,0,0,0,0,0,1) for the epoch of learning that was just completed.
     ii. **HiddenUnitEncoding_00000010.csv**: A csv file containing the three hidden units in the network for the input \vec{x} = (0,0,0,0,0,0,1,0) for the epoch of learning that was just completed.
