@@ -75,114 +75,114 @@ class NN:
 
 
     # Creates a plot of the sum of squared errors vs. the epoch number.
-#     def SSE_plot(self, epoch_counter):
-# 	"""
-#         Arguments
-# 	    -------------------------------------------------------------------- 
-#             epoch_counter: number of epochs to be plotted 
-#         """
-#         # Initializes the units, as values corresponding to the unit's SSEs will be plotted on the y axis.
-#         unit1,unit2,unit3,unit4,unit5,unit6,unit7,unit8 = [],[],[],[],[],[],[],[]
+    def SSE_plot(self, epoch_counter):
+	"""
+        Arguments
+	    -------------------------------------------------------------------- 
+            epoch_counter: number of epochs to be plotted 
+        """
+        # Initializes the units, as values corresponding to the unit's SSEs will be plotted on the y axis.
+        unit1,unit2,unit3,unit4,unit5,unit6,unit7,unit8 = [],[],[],[],[],[],[],[]
 
-#         with open("SumOfSquaredErrors.csv", "r") as csvfile:
-#             csvreader = csv.reader(csvfile)
-#             next(csvreader, None) # Skips the first row of the csv file, as this is the header.
+        with open("SumOfSquaredErrors.csv", "r") as csvfile:
+            csvreader = csv.reader(csvfile)
+            next(csvreader, None) # Skips the first row of the csv file, as this is the header.
 
-#             # Appends each column to an array corresponding to the specific unit's values.
-#             for line in csvreader:
-#                 unit1.append(float(line[0]))
-#                 unit2.append(float(line[1]))
-#                 unit3.append(float(line[2]))
-#                 unit4.append(float(line[3]))
-#                 unit5.append(float(line[4]))
-#                 unit6.append(float(line[5]))
-#                 unit7.append(float(line[6]))
-#                 unit8.append(float(line[7]))
+            # Appends each column to an array corresponding to the specific unit's values.
+            for line in csvreader:
+                unit1.append(float(line[0]))
+                unit2.append(float(line[1]))
+                unit3.append(float(line[2]))
+                unit4.append(float(line[3]))
+                unit5.append(float(line[4]))
+                unit6.append(float(line[5]))
+                unit7.append(float(line[6]))
+                unit8.append(float(line[7]))
 
-#         # Plots data corresponding to each of the 8 units on one graph.
-#         fig = plt.figure(figsize=(12,8))
-#         plt.plot(epoch_counter, unit1, label = "Unit 1")
-#         plt.plot(epoch_counter, unit2, label = "Unit 2")
-#         plt.plot(epoch_counter, unit3, label = "Unit 3")
-#         plt.plot(epoch_counter, unit4, label = "Unit 4")
-#         plt.plot(epoch_counter, unit5, label = "Unit 5")
-#         plt.plot(epoch_counter, unit6, label = "Unit 6")
-#         plt.plot(epoch_counter, unit7, label = "Unit 7")
-#         plt.plot(epoch_counter, unit8, label = "Unit 8")
-#         plt.legend(loc="center right")
-#         plt.xlabel('Epoch Number')
-#         plt.ylabel('Sum of Squared Errors')
-#         plt.title('Sum of Squared Errors For Each Output Unit')
+        # Plots data corresponding to each of the 8 units on one graph.
+        fig = plt.figure(figsize=(12,8))
+        plt.plot(epoch_counter, unit1, label = "Unit 1")
+        plt.plot(epoch_counter, unit2, label = "Unit 2")
+        plt.plot(epoch_counter, unit3, label = "Unit 3")
+        plt.plot(epoch_counter, unit4, label = "Unit 4")
+        plt.plot(epoch_counter, unit5, label = "Unit 5")
+        plt.plot(epoch_counter, unit6, label = "Unit 6")
+        plt.plot(epoch_counter, unit7, label = "Unit 7")
+        plt.plot(epoch_counter, unit8, label = "Unit 8")
+        plt.legend(loc="center right")
+        plt.xlabel('Epoch Number')
+        plt.ylabel('Sum of Squared Errors')
+        plt.title('Sum of Squared Errors For Each Output Unit')
 
-#         fig.tight_layout()
-#         fig.savefig('SquaredErrorsPlot.png') # Saves the graph as a png file.
+        fig.tight_layout()
+        fig.savefig('SquaredErrorsPlot.png') # Saves the graph as a png file.
 
 
-    # Creates a plot of the hidden unit value vs. the epoch number.
-    # The filename passed in is used to distinguish between the different HUEs.
-#     def HUE_plot(self, filename, epoch_counter):
-# 	"""
-#         Arguments
-# 	    -------------------------------------------------------------------- 
-#             filename: the Hidden Unit Encoding file whose data is to be plotted
-# 	    epoch_counter: number of epochs to be plotted 
-#         """
-#         # Initializes the units, as their values will be plotted on the y axis.
-#         unit1,unit2,unit3 = [],[],[]
+    Creates a plot of the hidden unit value vs. the epoch number.
+    The filename passed in is used to distinguish between the different HUEs.
+    def HUE_plot(self, filename, epoch_counter):
+	"""
+        Arguments
+	    -------------------------------------------------------------------- 
+            filename: the Hidden Unit Encoding file whose data is to be plotted
+	    epoch_counter: number of epochs to be plotted 
+        """
+        # Initializes the units, as their values will be plotted on the y axis.
+        unit1,unit2,unit3 = [],[],[]
 
-#         with open(filename, "r") as csvfile:
-#             csvreader = csv.reader(csvfile)
-#             next(csvreader, None) # Skips the first row of the csv file, as this is the header.
+        with open(filename, "r") as csvfile:
+            csvreader = csv.reader(csvfile)
+            next(csvreader, None) # Skips the first row of the csv file, as this is the header.
 
-#             # Appends values corresponding to each unit to an array.
-#             for line in csvreader:
-#                 unit1.append(float(line[0]))
-#                 unit2.append(float(line[1]))
-#                 unit3.append(float(line[2]))
+            # Appends values corresponding to each unit to an array.
+            for line in csvreader:
+                unit1.append(float(line[0]))
+                unit2.append(float(line[1]))
+                unit3.append(float(line[2]))
 
-#         # Plots data corresponding to each of the hidden units on one graph.
-#         fig = plt.figure(figsize=(12,8))
-#         plt.plot(epoch_counter, unit1, label = "Unit 1")
-#         plt.plot(epoch_counter, unit2, label = "Unit 2")
-#         plt.plot(epoch_counter, unit3, label = "Unit 3")
-#         plt.legend(loc="center right")
-#         plt.xlabel('Epoch Number')
-#         plt.ylabel('Hidden Unit Value')  
+        # Plots data corresponding to each of the hidden units on one graph.
+        fig = plt.figure(figsize=(12,8))
+        plt.plot(epoch_counter, unit1, label = "Unit 1")
+        plt.plot(epoch_counter, unit2, label = "Unit 2")
+        plt.plot(epoch_counter, unit3, label = "Unit 3")
+        plt.legend(loc="center right")
+        plt.xlabel('Epoch Number')
+        plt.ylabel('Hidden Unit Value')  
 
-#         # Sets titles corresponding to the specific HUE.
-#         # Saves graphs to different files corresponding to the HUE.
-#         if (filename == "HiddenUnitEncoding_10000000.csv"):
-#             plt.title('Hidden Unit Encoding for Input 10000000')
-#             fig.tight_layout()
-#             fig.savefig('HiddenUnit_10000000_Plot.png')
-#         elif (filename == "HiddenUnitEncoding_01000000.csv"):
-#             plt.title('Hidden Unit Encoding for Input 01000000')
-#             fig.tight_layout()
-#             fig.savefig('HiddenUnit_01000000_Plot.png')
-#         elif (filename == "HiddenUnitEncoding_00100000.csv"):
-#             plt.title('Hidden Unit Encoding for Input 00100000')
-#             fig.tight_layout()
-#             fig.savefig('HiddenUnit_00100000_Plot.png')
-#         elif (filename == "HiddenUnitEncoding_00010000.csv"):
-#             plt.title('Hidden Unit Encoding for Input 00010000')
-#             fig.tight_layout()
-#             fig.savefig('HiddenUnit_00010000_Plot.png')
-#         elif (filename == "HiddenUnitEncoding_00001000.csv"):
-#             plt.title('Hidden Unit Encoding for Input 00001000')
-#             fig.tight_layout()
-#             fig.savefig('HiddenUnit_00001000_Plot.png')
-#         elif (filename == "HiddenUnitEncoding_00000100.csv"):
-#             plt.title('Hidden Unit Encoding for Input 00000100')
-#             fig.tight_layout()
-#             fig.savefig('HiddenUnit_00000100_Plot.png')
-#         elif (filename == "HiddenUnitEncoding_00000010.csv"):
-#             plt.title('Hidden Unit Encoding for Input 00000010')
-#             fig.tight_layout()
-#             fig.savefig('HiddenUnit_00000010_Plot.png')
-#         elif (filename == "HiddenUnitEncoding_00000001.csv"):
-#             plt.title('Hidden Unit Encoding for Input 00000001')
-#             fig.tight_layout()
-#             fig.savefig('HiddenUnit_00000001_Plot.png')
+        # Sets titles corresponding to the specific HUE.
+        # Saves graphs to different files corresponding to the HUE.
+        if (filename == "HiddenUnitEncoding_10000000.csv"):
+            plt.title('Hidden Unit Encoding for Input 10000000')
+            fig.tight_layout()
+            fig.savefig('HiddenUnit_10000000_Plot.png')
+        elif (filename == "HiddenUnitEncoding_01000000.csv"):
+            plt.title('Hidden Unit Encoding for Input 01000000')
+            fig.tight_layout()
+            fig.savefig('HiddenUnit_01000000_Plot.png')
+        elif (filename == "HiddenUnitEncoding_00100000.csv"):
+            plt.title('Hidden Unit Encoding for Input 00100000')
+            fig.tight_layout()
+            fig.savefig('HiddenUnit_00100000_Plot.png')
+        elif (filename == "HiddenUnitEncoding_00010000.csv"):
+            plt.title('Hidden Unit Encoding for Input 00010000')
+            fig.tight_layout()
+            fig.savefig('HiddenUnit_00010000_Plot.png')
+        elif (filename == "HiddenUnitEncoding_00001000.csv"):
+            plt.title('Hidden Unit Encoding for Input 00001000')
+            fig.tight_layout()
+            fig.savefig('HiddenUnit_00001000_Plot.png')
+        elif (filename == "HiddenUnitEncoding_00000100.csv"):
+            plt.title('Hidden Unit Encoding for Input 00000100')
+            fig.tight_layout()
+            fig.savefig('HiddenUnit_00000100_Plot.png')
+        elif (filename == "HiddenUnitEncoding_00000010.csv"):
+            plt.title('Hidden Unit Encoding for Input 00000010')
+            fig.tight_layout()
+            fig.savefig('HiddenUnit_00000010_Plot.png')
+        elif (filename == "HiddenUnitEncoding_00000001.csv"):
+            plt.title('Hidden Unit Encoding for Input 00000001')
+            fig.tight_layout()
+            fig.savefig('HiddenUnit_00000001_Plot.png')
 
 
     def forward(self, data):
@@ -353,15 +353,15 @@ class NN:
         HRF.close()
 
         # Create the SSE plot and each of the HUE plots.
-        #self.SSE_plot(epoch_counter)
-        #self.HUE_plot("HiddenUnitEncoding_10000000.csv", epoch_counter)
-        #self.HUE_plot("HiddenUnitEncoding_01000000.csv", epoch_counter)
-        #self.HUE_plot("HiddenUnitEncoding_00100000.csv", epoch_counter)
-        #self.HUE_plot("HiddenUnitEncoding_00010000.csv", epoch_counter)
-        #self.HUE_plot("HiddenUnitEncoding_00001000.csv", epoch_counter)
-        #self.HUE_plot("HiddenUnitEncoding_00000100.csv", epoch_counter)
-        #self.HUE_plot("HiddenUnitEncoding_00000010.csv", epoch_counter)
-        #self.HUE_plot("HiddenUnitEncoding_00000001.csv", epoch_counter)
+        self.SSE_plot(epoch_counter)
+        self.HUE_plot("HiddenUnitEncoding_10000000.csv", epoch_counter)
+        self.HUE_plot("HiddenUnitEncoding_01000000.csv", epoch_counter)
+        self.HUE_plot("HiddenUnitEncoding_00100000.csv", epoch_counter)
+        self.HUE_plot("HiddenUnitEncoding_00010000.csv", epoch_counter)
+        self.HUE_plot("HiddenUnitEncoding_00001000.csv", epoch_counter)
+        self.HUE_plot("HiddenUnitEncoding_00000100.csv", epoch_counter)
+        self.HUE_plot("HiddenUnitEncoding_00000010.csv", epoch_counter)
+        self.HUE_plot("HiddenUnitEncoding_00000001.csv", epoch_counter)
 
 
 if __name__ == "__main__":
