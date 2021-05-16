@@ -50,7 +50,7 @@ class NN:
             weights: list: list of weights for each hidden unit & output unit
         """
 
-        self.lr = lr # The learning rate is initialized to 0.3.
+        self.lr = lr # The learning rate is initialized to 0.3 by default.
         self.n_in = inputs
         self.n_h = hidden
         self.n_out = outputs
@@ -65,138 +65,154 @@ class NN:
 
     # Calculates the sigmoid function using the mathematical definition.
     # Used to propagate the input forward.
-    def sigmoid(self, dotprod):
-        return float( 1 / ( 1 + ( math.e**(-1*dotprod) ) ) )
+    def sigmoid(self, x):
+	"""
+        Arguments
+	    -------------------------------------------------------------------- 
+            x: the argument of sigmoid function
+        """
+        return float( 1 / ( 1 + ( math.e**(-1*x) ) ) )
 
 
     # Creates a plot of the sum of squared errors vs. the epoch number.
-    def SSE_plot(self, epoch_counter):
-        # Initializes the units, as values corresponding to the unit's SSEs will be plotted on the y axis.
-        unit1,unit2,unit3,unit4,unit5,unit6,unit7,unit8 = [],[],[],[],[],[],[],[]
+#     def SSE_plot(self, epoch_counter):
+# 	"""
+#         Arguments
+# 	    -------------------------------------------------------------------- 
+#             epoch_counter: number of epochs to be plotted 
+#         """
+#         # Initializes the units, as values corresponding to the unit's SSEs will be plotted on the y axis.
+#         unit1,unit2,unit3,unit4,unit5,unit6,unit7,unit8 = [],[],[],[],[],[],[],[]
 
-        with open("SumOfSquaredErrors.csv", "r") as csvfile:
-            csvreader = csv.reader(csvfile)
-            next(csvreader, None) # Skips the first row of the csv file, as this is the header.
+#         with open("SumOfSquaredErrors.csv", "r") as csvfile:
+#             csvreader = csv.reader(csvfile)
+#             next(csvreader, None) # Skips the first row of the csv file, as this is the header.
 
-            # Appends each column to an array corresponding to the specific unit's values.
-            for line in csvreader:
-                unit1.append(float(line[0]))
-                unit2.append(float(line[1]))
-                unit3.append(float(line[2]))
-                unit4.append(float(line[3]))
-                unit5.append(float(line[4]))
-                unit6.append(float(line[5]))
-                unit7.append(float(line[6]))
-                unit8.append(float(line[7]))
+#             # Appends each column to an array corresponding to the specific unit's values.
+#             for line in csvreader:
+#                 unit1.append(float(line[0]))
+#                 unit2.append(float(line[1]))
+#                 unit3.append(float(line[2]))
+#                 unit4.append(float(line[3]))
+#                 unit5.append(float(line[4]))
+#                 unit6.append(float(line[5]))
+#                 unit7.append(float(line[6]))
+#                 unit8.append(float(line[7]))
 
-        # Plots data corresponding to each of the 8 units on one graph.
-        fig = plt.figure(figsize=(12,8))
-        plt.plot(epoch_counter, unit1, label = "Unit 1")
-        plt.plot(epoch_counter, unit2, label = "Unit 2")
-        plt.plot(epoch_counter, unit3, label = "Unit 3")
-        plt.plot(epoch_counter, unit4, label = "Unit 4")
-        plt.plot(epoch_counter, unit5, label = "Unit 5")
-        plt.plot(epoch_counter, unit6, label = "Unit 6")
-        plt.plot(epoch_counter, unit7, label = "Unit 7")
-        plt.plot(epoch_counter, unit8, label = "Unit 8")
-        plt.legend(loc="center right")
-        plt.xlabel('Epoch Number')
-        plt.ylabel('Sum of Squared Errors')
-        plt.title('Sum of Squared Errors For Each Output Unit')
+#         # Plots data corresponding to each of the 8 units on one graph.
+#         fig = plt.figure(figsize=(12,8))
+#         plt.plot(epoch_counter, unit1, label = "Unit 1")
+#         plt.plot(epoch_counter, unit2, label = "Unit 2")
+#         plt.plot(epoch_counter, unit3, label = "Unit 3")
+#         plt.plot(epoch_counter, unit4, label = "Unit 4")
+#         plt.plot(epoch_counter, unit5, label = "Unit 5")
+#         plt.plot(epoch_counter, unit6, label = "Unit 6")
+#         plt.plot(epoch_counter, unit7, label = "Unit 7")
+#         plt.plot(epoch_counter, unit8, label = "Unit 8")
+#         plt.legend(loc="center right")
+#         plt.xlabel('Epoch Number')
+#         plt.ylabel('Sum of Squared Errors')
+#         plt.title('Sum of Squared Errors For Each Output Unit')
 
-        fig.tight_layout()
-        fig.savefig('SquaredErrorsPlot.png') # Saves the graph as a png file.
+#         fig.tight_layout()
+#         fig.savefig('SquaredErrorsPlot.png') # Saves the graph as a png file.
 
 
     # Creates a plot of the hidden unit value vs. the epoch number.
     # The filename passed in is used to distinguish between the different HUEs.
-    def HUE_plot(self, filename, epoch_counter):
-        # Initializes the units, as their values will be plotted on the y axis.
-        unit1,unit2,unit3 = [],[],[]
+#     def HUE_plot(self, filename, epoch_counter):
+# 	"""
+#         Arguments
+# 	    -------------------------------------------------------------------- 
+#             filename: the Hidden Unit Encoding file whose data is to be plotted
+# 	    epoch_counter: number of epochs to be plotted 
+#         """
+#         # Initializes the units, as their values will be plotted on the y axis.
+#         unit1,unit2,unit3 = [],[],[]
 
-        with open(filename, "r") as csvfile:
-            csvreader = csv.reader(csvfile)
-            next(csvreader, None) # Skips the first row of the csv file, as this is the header.
+#         with open(filename, "r") as csvfile:
+#             csvreader = csv.reader(csvfile)
+#             next(csvreader, None) # Skips the first row of the csv file, as this is the header.
 
-            # Appends values corresponding to each unit to an array.
-            for line in csvreader:
-                unit1.append(float(line[0]))
-                unit2.append(float(line[1]))
-                unit3.append(float(line[2]))
+#             # Appends values corresponding to each unit to an array.
+#             for line in csvreader:
+#                 unit1.append(float(line[0]))
+#                 unit2.append(float(line[1]))
+#                 unit3.append(float(line[2]))
 
-        # Plots data corresponding to each of the hidden units on one graph.
-        fig = plt.figure(figsize=(12,8))
-        plt.plot(epoch_counter, unit1, label = "Unit 1")
-        plt.plot(epoch_counter, unit2, label = "Unit 2")
-        plt.plot(epoch_counter, unit3, label = "Unit 3")
-        plt.legend(loc="center right")
-        plt.xlabel('Epoch Number')
-        plt.ylabel('Hidden Unit Value')  
+#         # Plots data corresponding to each of the hidden units on one graph.
+#         fig = plt.figure(figsize=(12,8))
+#         plt.plot(epoch_counter, unit1, label = "Unit 1")
+#         plt.plot(epoch_counter, unit2, label = "Unit 2")
+#         plt.plot(epoch_counter, unit3, label = "Unit 3")
+#         plt.legend(loc="center right")
+#         plt.xlabel('Epoch Number')
+#         plt.ylabel('Hidden Unit Value')  
 
-        # Sets titles corresponding to the specific HUE.
-        # Saves graphs to different files corresponding to the HUE.
-        if (filename == "HiddenUnitEncoding_10000000.csv"):
-            plt.title('Hidden Unit Encoding for Input 10000000')
-            fig.tight_layout()
-            fig.savefig('HiddenUnit_10000000_Plot.png')
-        elif (filename == "HiddenUnitEncoding_01000000.csv"):
-            plt.title('Hidden Unit Encoding for Input 01000000')
-            fig.tight_layout()
-            fig.savefig('HiddenUnit_01000000_Plot.png')
-        elif (filename == "HiddenUnitEncoding_00100000.csv"):
-            plt.title('Hidden Unit Encoding for Input 00100000')
-            fig.tight_layout()
-            fig.savefig('HiddenUnit_00100000_Plot.png')
-        elif (filename == "HiddenUnitEncoding_00010000.csv"):
-            plt.title('Hidden Unit Encoding for Input 00010000')
-            fig.tight_layout()
-            fig.savefig('HiddenUnit_00010000_Plot.png')
-        elif (filename == "HiddenUnitEncoding_00001000.csv"):
-            plt.title('Hidden Unit Encoding for Input 00001000')
-            fig.tight_layout()
-            fig.savefig('HiddenUnit_00001000_Plot.png')
-        elif (filename == "HiddenUnitEncoding_00000100.csv"):
-            plt.title('Hidden Unit Encoding for Input 00000100')
-            fig.tight_layout()
-            fig.savefig('HiddenUnit_00000100_Plot.png')
-        elif (filename == "HiddenUnitEncoding_00000010.csv"):
-            plt.title('Hidden Unit Encoding for Input 00000010')
-            fig.tight_layout()
-            fig.savefig('HiddenUnit_00000010_Plot.png')
-        elif (filename == "HiddenUnitEncoding_00000001.csv"):
-            plt.title('Hidden Unit Encoding for Input 00000001')
-            fig.tight_layout()
-            fig.savefig('HiddenUnit_00000001_Plot.png')
+#         # Sets titles corresponding to the specific HUE.
+#         # Saves graphs to different files corresponding to the HUE.
+#         if (filename == "HiddenUnitEncoding_10000000.csv"):
+#             plt.title('Hidden Unit Encoding for Input 10000000')
+#             fig.tight_layout()
+#             fig.savefig('HiddenUnit_10000000_Plot.png')
+#         elif (filename == "HiddenUnitEncoding_01000000.csv"):
+#             plt.title('Hidden Unit Encoding for Input 01000000')
+#             fig.tight_layout()
+#             fig.savefig('HiddenUnit_01000000_Plot.png')
+#         elif (filename == "HiddenUnitEncoding_00100000.csv"):
+#             plt.title('Hidden Unit Encoding for Input 00100000')
+#             fig.tight_layout()
+#             fig.savefig('HiddenUnit_00100000_Plot.png')
+#         elif (filename == "HiddenUnitEncoding_00010000.csv"):
+#             plt.title('Hidden Unit Encoding for Input 00010000')
+#             fig.tight_layout()
+#             fig.savefig('HiddenUnit_00010000_Plot.png')
+#         elif (filename == "HiddenUnitEncoding_00001000.csv"):
+#             plt.title('Hidden Unit Encoding for Input 00001000')
+#             fig.tight_layout()
+#             fig.savefig('HiddenUnit_00001000_Plot.png')
+#         elif (filename == "HiddenUnitEncoding_00000100.csv"):
+#             plt.title('Hidden Unit Encoding for Input 00000100')
+#             fig.tight_layout()
+#             fig.savefig('HiddenUnit_00000100_Plot.png')
+#         elif (filename == "HiddenUnitEncoding_00000010.csv"):
+#             plt.title('Hidden Unit Encoding for Input 00000010')
+#             fig.tight_layout()
+#             fig.savefig('HiddenUnit_00000010_Plot.png')
+#         elif (filename == "HiddenUnitEncoding_00000001.csv"):
+#             plt.title('Hidden Unit Encoding for Input 00000001')
+#             fig.tight_layout()
+#             fig.savefig('HiddenUnit_00000001_Plot.png')
 
 
-    def forward(self, data):
-        """
-	    Performs forward propagation in network 
-	    Arguments
-	    --------------------------------------------------------------------
-		    data : list : training instance containing inputs
-        Returns:      
-	    --------------------------------------------------------------------
-            output_h : list : list of outputs from hidden units 
-            output_k : list : list of outputs from output units
-	    """
+#     def forward(self, data):
+#         """
+# 	    Performs forward propagation in network 
+# 	    Arguments
+# 	    --------------------------------------------------------------------
+# 		    data : list : training instance containing inputs
+#         Returns:      
+# 	    --------------------------------------------------------------------
+#             output_h : list : list of outputs from hidden units 
+#             output_k : list : list of outputs from output units
+# 	    """
 
-        # Initializes hidden units & weights, and output units & weights.
-        h_output = [1,0,0,0] # The result of hidden units after utilizing input units.
-        h_weights = self.weights[:self.n_h]      
+#         # Initializes hidden units & weights, and output units & weights.
+#         h_output = [1,0,0,0] # The result of hidden units after utilizing input units.
+#         h_weights = self.weights[:self.n_h]      
         
         
-        k_output = [0,0,0,0,0,0,0,0] # The result of output units after utilizing hidden units.
-        k_weights = self.weights[self.n_h:]      
+#         k_output = [0,0,0,0,0,0,0,0] # The result of output units after utilizing hidden units.
+#         k_weights = self.weights[self.n_h:]      
 
-        for h in range(1, len(h_output)): # Takes input units into hidden units.
-            dotprod = numpy.dot(h_weights[h-1], data)  
-            h_output[h] = self.sigmoid(dotprod)
+#         for h in range(1, len(h_output)): # Takes input units into hidden units.
+#             dotprod = numpy.dot(h_weights[h-1], data)  
+#             h_output[h] = self.sigmoid(dotprod)
 
-        for k in range(len(k_output)): # Takes hidden units as inputs for output units.
-            dotprod = numpy.dot(k_weights[k], h_output)
-            k_output[k] = self.sigmoid(dotprod)
-        return h_output, k_output
+#         for k in range(len(k_output)): # Takes hidden units as inputs for output units.
+#             dotprod = numpy.dot(k_weights[k], h_output)
+#             k_output[k] = self.sigmoid(dotprod)
+#         return h_output, k_output
         
 
     def backpropagate(self,data,epochs=4999): # The epoch number is set to 4999 since they start at index 0. This will end up being 5000 epochs total. 
@@ -205,7 +221,7 @@ class NN:
 	    Arguments
 	    --------------------------------------------------------------------
 		    data : list : list of training instances  
-            epochs: number of epochs or iterations
+            	    epochs: number of epochs or iterations
 	
 	    --------------------------------------------------------------------
 	    Outputs:
@@ -366,6 +382,3 @@ if __name__ == "__main__":
 
     # Perform the backpropagation algorithm.
     nn.backpropagate(d)
-
-    # Prints an example of the forward propagation in use.
-    print(nn.forward([1,0,0,0,1,0,0,0,0])[1])
