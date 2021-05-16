@@ -38,4 +38,5 @@ The deliverables include:
 1) On OnDemand, go to your File Home Directory.
 2) Upload Neural-Networks.tar.gz to your File Home Directory.
 3) In the terminal, type in "module add python". Press the return key.
-4) Run the program by typing in "python3 network.py". Press the return key.
+4) In the terminal, type in "pip install matplotlib". Press the return key.
+5) Run the program by typing in "python3 network.py". Press the return key.
