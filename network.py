@@ -66,7 +66,7 @@ class NN:
     # Calculates the sigmoid function using the mathematical definition.
     # Used to propagate the input forward.
     def sigmoid(self, x):
-	"""
+        """
         Arguments
 	    -------------------------------------------------------------------- 
             x: the argument of sigmoid function
@@ -353,15 +353,15 @@ class NN:
         HRF.close()
 
         # Create the SSE plot and each of the HUE plots.
-        self.SSE_plot(epoch_counter)
-        self.HUE_plot("HiddenUnitEncoding_10000000.csv", epoch_counter)
-        self.HUE_plot("HiddenUnitEncoding_01000000.csv", epoch_counter)
-        self.HUE_plot("HiddenUnitEncoding_00100000.csv", epoch_counter)
-        self.HUE_plot("HiddenUnitEncoding_00010000.csv", epoch_counter)
-        self.HUE_plot("HiddenUnitEncoding_00001000.csv", epoch_counter)
-        self.HUE_plot("HiddenUnitEncoding_00000100.csv", epoch_counter)
-        self.HUE_plot("HiddenUnitEncoding_00000010.csv", epoch_counter)
-        self.HUE_plot("HiddenUnitEncoding_00000001.csv", epoch_counter)
+        #self.SSE_plot(epoch_counter)
+        #self.HUE_plot("HiddenUnitEncoding_10000000.csv", epoch_counter)
+        #self.HUE_plot("HiddenUnitEncoding_01000000.csv", epoch_counter)
+        #self.HUE_plot("HiddenUnitEncoding_00100000.csv", epoch_counter)
+        #self.HUE_plot("HiddenUnitEncoding_00010000.csv", epoch_counter)
+        #self.HUE_plot("HiddenUnitEncoding_00001000.csv", epoch_counter)
+        #self.HUE_plot("HiddenUnitEncoding_00000100.csv", epoch_counter)
+        #self.HUE_plot("HiddenUnitEncoding_00000010.csv", epoch_counter)
+        #self.HUE_plot("HiddenUnitEncoding_00000001.csv", epoch_counter)
 
 
 if __name__ == "__main__":
