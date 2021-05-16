@@ -185,34 +185,34 @@ class NN:
 #             fig.savefig('HiddenUnit_00000001_Plot.png')
 
 
-#     def forward(self, data):
-#         """
-# 	    Performs forward propagation in network 
-# 	    Arguments
-# 	    --------------------------------------------------------------------
-# 		    data : list : training instance containing inputs
-#         Returns:      
-# 	    --------------------------------------------------------------------
-#             output_h : list : list of outputs from hidden units 
-#             output_k : list : list of outputs from output units
-# 	    """
+    def forward(self, data):
+        """
+	    Performs forward propagation in network 
+	    Arguments
+	    --------------------------------------------------------------------
+		    data : list : training instance containing inputs
+        Returns:      
+	    --------------------------------------------------------------------
+            output_h : list : list of outputs from hidden units 
+            output_k : list : list of outputs from output units
+	    """
 
-#         # Initializes hidden units & weights, and output units & weights.
-#         h_output = [1,0,0,0] # The result of hidden units after utilizing input units.
-#         h_weights = self.weights[:self.n_h]      
+        # Initializes hidden units & weights, and output units & weights.
+        h_output = [1,0,0,0] # The result of hidden units after utilizing input units.
+        h_weights = self.weights[:self.n_h]      
         
         
-#         k_output = [0,0,0,0,0,0,0,0] # The result of output units after utilizing hidden units.
-#         k_weights = self.weights[self.n_h:]      
+        k_output = [0,0,0,0,0,0,0,0] # The result of output units after utilizing hidden units.
+        k_weights = self.weights[self.n_h:]      
 
-#         for h in range(1, len(h_output)): # Takes input units into hidden units.
-#             dotprod = numpy.dot(h_weights[h-1], data)  
-#             h_output[h] = self.sigmoid(dotprod)
+        for h in range(1, len(h_output)): # Takes input units into hidden units.
+            dotprod = numpy.dot(h_weights[h-1], data)  
+            h_output[h] = self.sigmoid(dotprod)
 
-#         for k in range(len(k_output)): # Takes hidden units as inputs for output units.
-#             dotprod = numpy.dot(k_weights[k], h_output)
-#             k_output[k] = self.sigmoid(dotprod)
-#         return h_output, k_output
+        for k in range(len(k_output)): # Takes hidden units as inputs for output units.
+            dotprod = numpy.dot(k_weights[k], h_output)
+            k_output[k] = self.sigmoid(dotprod)
+        return h_output, k_output
         
 
     def backpropagate(self,data,epochs=4999): # The epoch number is set to 4999 since they start at index 0. This will end up being 5000 epochs total. 
