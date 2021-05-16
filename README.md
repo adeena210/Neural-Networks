@@ -9,15 +9,15 @@ The deliverables include:
 
 1. **network.py**: Implementation of a multilayer neural network learner that utilizes backpropagation (D1).
 2. Data Files (D2):
-    i. **HiddenUnitEncoding_00000001.csv**: A csv file containing the three hidden units in the network for the input \vec{x} = (0,0,0,0,0,0,0,1) for the epoch of learning that was just completed.
-    ii. **HiddenUnitEncoding_00000010.csv**: A csv file containing the three hidden units in the network for the input \vec{x} = (0,0,0,0,0,0,1,0) for the epoch of learning that was just completed.
-    iii. **HiddenUnitEncoding_00000100.csv**: A csv file containing the three hidden units in the network for the input \vec{x} = (0,0,0,0,0,1,0,0) for the epoch of learning that was just completed.
-    iv. **HiddenUnitEncoding_00001000.csv**: A csv file containing the three hidden units in the network for the input \vec{x} = (0,0,0,0,1,0,0,0) for the epoch of learning that was just completed.
-    v. **HiddenUnitEncoding_00010000.csv**: A csv file containing the three hidden units in the network for the input \vec{x} = (0,0,0,1,0,0,0,0) for the epoch of learning that was just completed.
-    vi. **HiddenUnitEncoding_00100000.csv**: A csv file containing the three hidden units in the network for the input \vec{x} = (0,0,1,0,0,0,0,0) for the epoch of learning that was just completed.
-    vii. **HiddenUnitEncoding_01000000.csv**: A csv file containing the three hidden units in the network for the input \vec{x} = (0,1,0,0,0,0,0,0) for the epoch of learning that was just completed.
-    viii. **HiddenUnitEncoding_10000000.csv**: A csv file containing the three hidden units in the network for the input \vec{x} = (1,0,0,0,0,0,0,0) for the epoch of learning that was just completed.
-    ix. **SumOfSquaredErrors.csv**: A csv file containing the value of the sum of squared errors for each of the output units over the eight training examples for the epoch of learning that was just completed.
+    i. **HiddenUnitEncoding_00000001.csv**: A csv file containing the three hidden units in the network for the input \vec{x} = (0,0,0,0,0,0,0,1) for each epoch of learning.
+    ii. **HiddenUnitEncoding_00000010.csv**: A csv file containing the three hidden units in the network for the input \vec{x} = (0,0,0,0,0,0,1,0) for each epoch of learning.
+    iii. **HiddenUnitEncoding_00000100.csv**: A csv file containing the three hidden units in the network for the input \vec{x} = (0,0,0,0,0,1,0,0) for each epoch of learning.
+    iv. **HiddenUnitEncoding_00001000.csv**: A csv file containing the three hidden units in the network for the input \vec{x} = (0,0,0,0,1,0,0,0) for each epoch of learning.
+    v. **HiddenUnitEncoding_00010000.csv**: A csv file containing the three hidden units in the network for the input \vec{x} = (0,0,0,1,0,0,0,0) for each epoch of learning.
+    vi. **HiddenUnitEncoding_00100000.csv**: A csv file containing the three hidden units in the network for the input \vec{x} = (0,0,1,0,0,0,0,0) for each epoch of learning.
+    vii. **HiddenUnitEncoding_01000000.csv**: A csv file containing the three hidden units in the network for the input \vec{x} = (0,1,0,0,0,0,0,0) for each epoch of learning.
+    viii. **HiddenUnitEncoding_10000000.csv**: A csv file containing the three hidden units in the network for the input \vec{x} = (1,0,0,0,0,0,0,0) for each epoch of learning,
+    ix. **SumOfSquaredErrors.csv**: A csv file containing the value of the sum of squared errors for each of the output units over the eight training examples for each epoch of learning.
 3. Plots (D3):
     i. **HiddenUnit_00000001_Plot.png**: A graph of the values emitted by the three hidden units in the network for the input \vec{x} = (0,0,0,0,0,0,0,1) vs. the epoch number (T3.2).
     ii. **HiddenUnit_00000010_Plot.png**: A graph of the values emitted by the three hidden units in the network for the input \vec{x} = (0,0,0,0,0,0,1,0) vs. the epoch number (T3.2).
@@ -28,7 +28,7 @@ The deliverables include:
     vii. **HiddenUnit_01000000_Plot.png**: A graph of the values emitted by the three hidden units in the network for the input \vec{x} = (0,1,0,0,0,0,0,0) vs. the epoch number (T3.2).
     viii. **HiddenUnit_10000000_Plot.png**: A graph of the values emitted by the three hidden units in the network for the input \vec{x} = (1,0,0,0,0,0,0,0) vs. the epoch number (T3.2).
     ix. **SquaredErrorsPlot.png**: A graph of the sum of squared errors vs. the epoch number (T3.1). 
-4. **HiddenRepresentationsFile.csv**: Holds information corresponding to the three hidden unit values in the eight Hidden Unit Files produced (D4).
+4. **HiddenRepresentationsFile.csv**: Holds information corresponding to the input value, output value, and last three hidden unit values from each of the eight hidden unit encoding files (D4).
 5. **D4_Analysis.pdf**: A written report of the observations and analysis regarding the hidden value encodings learned by the machine (D4).
 6. **D5_Reflection.pdf**: A writeup reflecting on the assignment (D5).
 
